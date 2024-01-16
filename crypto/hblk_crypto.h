@@ -7,6 +7,8 @@
 #include <stdint.h>
 #include <openssl/sha.h>
 #include <openssl/ec.h>
+#include <openssl/obj_mac.h>
+
 
 #define EC_CURVE   NID_secp256k1
 

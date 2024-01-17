@@ -9,6 +9,6 @@ uint8_t *ec_to_pub(EC_KEY const *key, uint8_t pub[EC_PUB_LEN])
 
     public_key = EC_KEY_get0_public_key(key);
     group = EC_KEY_get0_group(key);
-    EC_POINT_point2buf(group, public_key, POINT_CONVERSION_UNCOMPRESSED, pub, NULL);
+    EC_POINT_point2oct(group, public_key, POINT_CONVERSION_UNCOMPRESSED, pub, EC_PUB_LEN, NULL);
     return (pub);
 }

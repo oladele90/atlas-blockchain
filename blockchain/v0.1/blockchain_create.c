@@ -38,8 +38,5 @@ blockchain_t *blockchain_create(void)
 							"\x58\x03", SHA256_DIGEST_LENGTH);
 
 	llist_add_node(new_chain->chain, new_block, ADD_NODE_FRONT);
-	if (!llist_get_head(new_chain->chain))
-		printf("\n\n\n\n\nyou five me??\n\n\n\n\n");
-
 	return (new_chain);
 }

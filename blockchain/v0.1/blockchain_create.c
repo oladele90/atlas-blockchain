@@ -7,15 +7,14 @@
  */
 blockchain_t *blockchain_create(void)
 {
-	blockchain_t *new_chain = malloc(sizeof(blockchain_t));
-	block_t *new_block = malloc(sizeof(block_t));
+	blockchain_t *new_chain = calloc(1, sizeof(blockchain_t));
+	block_t *new_block = calloc(1, sizeof(block_t));
 
 	if (!new_block || !new_chain)
 	{
 		free(new_chain);
 		return (NULL);
 	}
-
 	new_chain->chain = llist_create(MT_SUPPORT_FALSE);
 	if (!new_chain->chain)
 	{

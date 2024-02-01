@@ -5,7 +5,7 @@ block_t *block_create(block_t const *prev, int8_t const *data,
 {
 	block_t *new_block = calloc(1, sizeof(block_t));
 	uint32_t d_len = data_len > BLOCKCHAIN_DATA_MAX ?
-data_len : BLOCKCHAIN_DATA_MAX;
+data_len : data_len;
 
 	if (!new_block)
 	{

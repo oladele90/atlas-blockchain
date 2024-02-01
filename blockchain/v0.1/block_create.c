@@ -14,9 +14,10 @@ data_len : BLOCKCHAIN_DATA_MAX;
 	}
 
 	memcpy(new_block->data.buffer, data, data_len);
-
+	memcpy(new_block->info.prev_hash, prev->hash, SHA256_DIGEST_LENGTH);
 	new_block->data.len = d_len;
 	new_block->info.timestamp = syscall(SYS_time, NULL);
 	new_block->info.index = prev->info.index + 1;
+
 	return (new_block);
 }

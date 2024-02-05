@@ -1,10 +1,13 @@
 #include "blockchain.h"
 
 
-uint8_t *block_hash(block_t const *block,
-					uint8_t hash_buf[SHA256_DIGEST_LENGTH])
+uint8_t *block_hash(block_t const *block, uint8_t hash_buf[SHA256_DIGEST_LENGTH])
 {
+    SHA256_CTX c;
 
-	sha256((int8_t const *)&(block->info), block->data.len, hash_buf);
-	return (hash_buf);
+    SHA256_Init(&c);
+    SHA256_Update(&c, (void *)block->data.buffer, SHA256_DIGEST_LENGTH);
+
+    SHA256_Final(hash_buf, &c);
+    return (hash_buf);
 }

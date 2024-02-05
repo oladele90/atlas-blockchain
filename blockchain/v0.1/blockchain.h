@@ -1,7 +1,6 @@
 #ifndef _BLOCKCHAIN_H_
 #define _BLOCKCHAIN_H_
 #include "../../crypto/hblk_crypto.h"
-#include "provided/_endianness.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

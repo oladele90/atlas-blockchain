@@ -1,5 +1,7 @@
 #ifndef _BLOCKCHAIN_H_
 #define _BLOCKCHAIN_H_
+#include "../../crypto/hblk_crypto.h"
+#include "provided/_endianness.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -81,5 +83,6 @@ block_t *block_create(block_t const *prev,
 						int8_t const *data, uint32_t data_len);
 void block_destroy(block_t *block);
 void blockchain_destroy(blockchain_t *blockchain);
+uint8_t *block_hash(block_t const *block, uint8_t hash_buf[SHA256_DIGEST_LENGTH]);
 
 #endif

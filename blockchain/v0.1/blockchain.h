@@ -1,6 +1,7 @@
 #ifndef _BLOCKCHAIN_H_
 #define _BLOCKCHAIN_H_
 #include "../../crypto/hblk_crypto.h"
+#include "provided/_endianness.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -77,11 +78,20 @@ typedef struct block_s
 	uint8_t     hash[SHA256_DIGEST_LENGTH];
 } block_t;
 
+typedef struct header_s
+{
+	uint32_t magic;
+	uint8_t version[3];
+	uint8_t endian;
+	uint32_t blocks;
+} header_t;
+
 blockchain_t *blockchain_create(void);
 block_t *block_create(block_t const *prev,
 						int8_t const *data, uint32_t data_len);
 void block_destroy(block_t *block);
 void blockchain_destroy(blockchain_t *blockchain);
 uint8_t *block_hash(block_t const *block, uint8_t hash_buf[SHA256_DIGEST_LENGTH]);
+int blockchain_serialize(blockchain_t const *blockchain, char const *path);
 
 #endif

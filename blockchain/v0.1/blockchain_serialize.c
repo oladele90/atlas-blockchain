@@ -1,5 +1,14 @@
 #include "blockchain.h"
 
+/**
+ * writer - Callback function to write block data to file
+ * @node: Current node being iterated over
+ * @idx: Index of the current node
+ * @arg: Pointer to the file descriptor
+ *
+ * Return: 0 on success, non-zero on failure
+ */
+
 int writer(llist_node_t node, unsigned int idx, void *arg)
 {
     FILE *fd = (FILE *)arg;
@@ -13,6 +22,15 @@ int writer(llist_node_t node, unsigned int idx, void *arg)
     return (0);
 
 }
+
+/**
+ * blockchain_serialize - Serialize a blockchain and write it to a file
+ * @blockchain: Pointer to the blockchain to be serialized
+ * @path: Path to the file where the serialized blockchain will be written
+ *
+ * Return: 1 on success, 0 on failure
+ */
+
 int blockchain_serialize(blockchain_t const *blockchain, char const *path)
 {
     FILE *fd;

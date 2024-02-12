@@ -10,6 +10,9 @@ blockchain_t *write_blocks(uint32_t size, FILE *fd, blockchain_t *chain)
     {
         block = calloc(1, sizeof(block_t));
         fread(&block->info, sizeof(block_info_t), 1, fd);
+        fread(&(block->data.len), sizeof(uint8_t), 4, fd);
+        fread(block->data.buffer, sizeof(uint8_t), block->data.len, fd);
+        fread(block->hash, sizeof(uint8_t), SHA256_DIGEST_LENGTH, fd);
         llist_add_node(chain->chain, block, ADD_NODE_REAR);
     }
 
@@ -29,15 +32,9 @@ blockchain_t *blockchain_deserialize(char const *path)
     if (!fd)
         return (NULL);
     fread(buf, sizeof(uint8_t), 4, fd);
-    printf("%s\n\n\n\n", buf);
-    printf("%d\n\n\n\n", strncmp("HBLK", buf, 4));
     fread(buf, sizeof(uint8_t), 3, fd);
-    printf("%s\n\n\n\n", buf);
-    printf("%d\n\n\n\n", strncmp("0.1", buf, 3));
     fread(&end, sizeof(uint8_t), 1, fd);
-    printf("%d\n\n\n\n", end);
     fread(&size, sizeof(uint32_t), 1, fd);
-    printf("%d\n\n\n\n", size);
     blockchain->chain = llist_create(MT_SUPPORT_FALSE);
     blockchain = write_blocks(size, fd, blockchain);
     fclose(fd);

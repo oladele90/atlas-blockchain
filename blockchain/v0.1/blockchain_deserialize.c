@@ -34,7 +34,7 @@ blockchain_t *write_blocks(uint32_t size, FILE *fd, blockchain_t *chain)
  *
  * Return: Pointer to the deserialized blockchain
  */
- 
+
 blockchain_t *blockchain_deserialize(char const *path)
 {
 	FILE *fd = fopen(path, "r");

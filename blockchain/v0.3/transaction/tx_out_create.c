@@ -1,5 +1,14 @@
 #include "blockchain.h"
 
+/**
+ * tx_out_create - creates a new transaction output structure
+ * @amount: the amount of the transaction
+ * @pub: the public key to include in the transaction output
+ *
+ * Return: pointer to the newly created transaction output structure,
+ * or NULL if memory allocation fails or if @amount is 0 or if @pub is NULL
+ */
+
 tx_out_t *tx_out_create(uint32_t amount, uint8_t const pub[EC_PUB_LEN])
 {
     tx_out_t *new_tx;

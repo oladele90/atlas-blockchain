@@ -2,7 +2,20 @@
 
 tx_out_t *tx_out_create(uint32_t amount, uint8_t const pub[EC_PUB_LEN])
 {
-    if (amount && pub)
+    tx_out_t *new_tx;
+
+    if (!amount || !pub)
         return NULL;
-    return NULL;
+    new_tx = calloc(sizeof(tx_out_t), 1);
+    SHA256_CTX c;
+
+	SHA256_Init(&c);
+	SHA256_Update(&c, pub, EC_PUB_LEN);
+	SHA256_Update(&c, &amount, sizeof(uint32_t));
+
+	SHA256_Final(new_tx->hash, &c);
+    new_tx->amount = amount;
+    memcpy(&new_tx->pub, pub, EC_PUB_LEN);
+    
+    return (new_tx);
 }

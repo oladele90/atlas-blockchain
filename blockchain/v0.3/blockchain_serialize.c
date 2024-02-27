@@ -38,7 +38,7 @@ int blockchain_serialize(blockchain_t const *blockchain, char const *path)
 
 	fd = fopen(path, "w");
 	memcpy(&new_header.magic, "HBLK", 4);
-	memcpy(new_header.version, "0.1", 3);
+	memcpy(new_header.version, "0.3", 3);
 	new_header.endian = _get_endianness();
 	new_header.blocks = (uint32_t)llist_size(blockchain->chain);
 	fwrite(&new_header, sizeof(new_header), 1, fd);

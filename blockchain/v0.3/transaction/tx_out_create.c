@@ -20,7 +20,7 @@ tx_out_t *tx_out_create(uint32_t amount, uint8_t const pub[EC_PUB_LEN])
     memset(new_tx->pub, 0, EC_PUB_LEN);
     memset(new_tx->hash, 0, SHA256_DIGEST_LENGTH + 1);
     new_tx->amount = amount;
-    memcpy(&new_tx->pub, pub, EC_PUB_LEN);
+    memcpy(new_tx->pub, pub, EC_PUB_LEN);
 
     sha256((int8_t const *)new_tx, sizeof(new_tx->amount) + sizeof(new_tx->pub), new_tx->hash);
 

@@ -18,7 +18,8 @@ tx_out_t *tx_out_create(uint32_t amount, uint8_t const pub[EC_PUB_LEN])
 	new_tx = calloc(sizeof(tx_out_t), 1);
 	new_tx->amount = amount;
 	memcpy(&new_tx->pub, pub, EC_PUB_LEN);
-	sha256((int8_t *)new_tx, sizeof(new_tx->amount) + sizeof(new_tx->pub), new_tx->hash);
+	sha256((int8_t *)new_tx,
+			sizeof(new_tx->amount) + sizeof(new_tx->pub), new_tx->hash);
 
 
 	return (new_tx);

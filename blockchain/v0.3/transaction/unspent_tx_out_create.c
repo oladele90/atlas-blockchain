@@ -11,6 +11,6 @@ unspent_tx_out_t *unspent_tx_out_create(uint8_t block_hash[SHA256_DIGEST_LENGTH]
 	new_u_tx = calloc(sizeof(unspent_tx_out_t), 1);
 	memcpy(&new_u_tx->block_hash, block_hash, SHA256_DIGEST_LENGTH);
 	memcpy(&new_u_tx->tx_id, tx_id, SHA256_DIGEST_LENGTH);
-	memcpy(&new_u_tx->out, &out, sizeof(tx_out_t));
+	memcpy(&new_u_tx->out, out, sizeof(tx_out_t));
 	return (new_u_tx);
 }

@@ -34,7 +34,7 @@ uint8_t *transaction_hash(
         mem_append(buf, node_out->hash, &pointer);
     }
 
-    sha256((const int8_t *)buf, sizeof(buf), hash_buf);
+    sha256((const int8_t *)buf, (in_size * 96) + (out_size * 32), hash_buf);
     free(buf);
     return (hash_buf);
 }

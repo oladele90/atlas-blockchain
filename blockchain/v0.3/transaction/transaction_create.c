@@ -32,7 +32,8 @@ transaction_t *transaction_create(EC_KEY const *sender,
 		if (!memcmp(&pub, &sender_unspent_tx->out.pub, EC_PUB_LEN))
 		{
 			sender_amount += sender_unspent_tx->out.amount;
-			llist_add_node(new_t->inputs, tx_in_create(sender_unspent_tx), ADD_NODE_REAR);
+			llist_add_node(new_t->inputs,
+				tx_in_create(sender_unspent_tx), ADD_NODE_REAR);
 		}
 	}
 	if (amount > sender_amount)
@@ -42,7 +43,8 @@ transaction_t *transaction_create(EC_KEY const *sender,
 	if (amount != sender_amount)
 	{
 		ec_to_pub(sender, pub);
-		llist_add_node(new_t->outputs, tx_out_create(sender_amount - amount, pub), ADD_NODE_REAR);
+		llist_add_node(new_t->outputs, tx_out_create(sender_amount - amount, pub),
+			ADD_NODE_REAR);
 	}
 	transaction_hash(new_t, new_t->id);
 	for (i = 0; i < llist_size(new_t->inputs); i++)

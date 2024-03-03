@@ -1,5 +1,13 @@
 #include "transaction.h"
 
+/**
+ * tx_in_create - Creates a new transaction input
+ * @unspent: The unspent transaction output to create input from
+ *
+ * Return: If the transaction input is successfully created, a pointer to the
+ *         newly created transaction input. Otherwise, NULL.
+ */
+
 tx_in_t *tx_in_create(unspent_tx_out_t const *unspent)
 {
 	tx_in_t *new_tx_in;

@@ -1,10 +1,20 @@
 #include "transaction.h"
 
+/**
+ * check_inputs - Check if transaction inputs are valid
+ * @tx_in_size: Size of transaction inputs
+ * @unspent_size: Size of unspent transactions
+ * @tx_out_size: Size of transaction outputs
+ * @transaction: Pointer to the transaction structure
+ * @all_unspent: Pointer to the list of all unspent transactions
+ *
+ * Return: 1 if transaction inputs are valid, 0 otherwise
+ */
 static int check_inputs(int tx_in_size, int unspent_size, int tx_out_size,
-	transaction_t const *transaction, llist_t *all_unspent)
+			transaction_t const *transaction, llist_t *all_unspent)
 {
 	int i, j, match_flag, in_sum = 0, out_sum = 0;
-	tx_in_t* tx_in_index;
+	tx_in_t *tx_in_index;
 	unspent_tx_out_t *unspent_index;
 	tx_out_t  *tx_out_index;
 
@@ -16,18 +26,18 @@ static int check_inputs(int tx_in_size, int unspent_size, int tx_out_size,
 		{
 			unspent_index = llist_get_node_at(all_unspent, j);
 			if (memcmp(&tx_in_index->tx_out_hash,
-				unspent_index->out.hash, SHA256_DIGEST_LENGTH) == 0 &&
-				memcmp(&tx_in_index->tx_id, unspent_index->tx_id,
-				SHA256_DIGEST_LENGTH) == 0 && 
-				memcmp(&tx_in_index->block_hash,
-				unspent_index->block_hash, SHA256_DIGEST_LENGTH) == 0 &&
-				ec_verify(ec_from_pub((uint8_t const *)unspent_index->out.pub),
-				transaction->id, SHA256_DIGEST_LENGTH, &tx_in_index->sig) == 1)
-				{
-					in_sum += unspent_index->out.amount;
-					match_flag = 1;
-					break;
-				}
+				   unspent_index->out.hash, SHA256_DIGEST_LENGTH) == 0 &&
+			    memcmp(&tx_in_index->tx_id, unspent_index->tx_id,
+				   SHA256_DIGEST_LENGTH) == 0 &&
+			    memcmp(&tx_in_index->block_hash,
+				   unspent_index->block_hash, SHA256_DIGEST_LENGTH) == 0 &&
+			    ec_verify(ec_from_pub((uint8_t const *)unspent_index->out.pub),
+				      transaction->id, SHA256_DIGEST_LENGTH, &tx_in_index->sig) == 1)
+			{
+				in_sum += unspent_index->out.amount;
+				match_flag = 1;
+				break;
+			}
 		}
 		if (match_flag != 1)
 			return (0);
@@ -42,19 +52,27 @@ static int check_inputs(int tx_in_size, int unspent_size, int tx_out_size,
 
 	return (1);
 }
+
+/**
+ * transaction_is_valid - Check if a transaction is valid
+ * @transaction: Pointer to the transaction structure
+ * @all_unspent: Pointer to the list of all unspent transactions
+ *
+ * Return: 1 if the transaction is valid, 0 otherwise
+ */
 int transaction_is_valid(transaction_t const *transaction,
-	llist_t *all_unspent)
+			 llist_t *all_unspent)
 {
 	int tx_in_size, unspent_size, tx_out_size;
 	uint8_t hash_buf[SHA256_DIGEST_LENGTH];
 
 	if (memcmp(transaction_hash(transaction, hash_buf),
-		&transaction->id, SHA256_DIGEST_LENGTH) != 0)
+		   &transaction->id, SHA256_DIGEST_LENGTH) != 0)
 		return (0);
 
 	tx_in_size = llist_size(transaction->inputs);
 	tx_out_size = llist_size(transaction->outputs);
 	unspent_size = llist_size(all_unspent);
 	return (check_inputs(tx_in_size, unspent_size, tx_out_size,
-		transaction, all_unspent));
+			     transaction, all_unspent));
 }

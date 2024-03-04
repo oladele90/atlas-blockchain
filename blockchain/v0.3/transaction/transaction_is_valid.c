@@ -37,7 +37,5 @@ int transaction_is_valid(transaction_t const *transaction, llist_t *all_unspent)
     tx_in_amt = llist_size(transaction->inputs);
     tx_out_amt = llist_size(transaction->outputs);
     unspent_amt = llist_size(all_unspent);
-    if (tx_in_amt != tx_out_amt)
-        return (0);
     return (check_inputs(tx_in_amt, unspent_amt, transaction, all_unspent));
 }

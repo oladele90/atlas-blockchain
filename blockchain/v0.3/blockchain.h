@@ -181,5 +181,5 @@ transaction_t *transaction_create(EC_KEY const *sender,
 sig_t *tx_in_sign(
 	tx_in_t *in, uint8_t const tx_id[SHA256_DIGEST_LENGTH],
 	EC_KEY const *sender, llist_t *all_unspent);
-
+int transaction_is_valid(transaction_t const *transaction, llist_t *all_unspent);
 #endif

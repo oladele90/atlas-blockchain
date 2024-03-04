@@ -8,7 +8,7 @@ transaction_t *coinbase_create(EC_KEY const *receiver, uint32_t block_index)
     uint8_t const pub[EC_PUB_LEN];
 
     new_in = calloc(sizeof(tx_in_t), 1);
-    memcpy(new_in->tx_out_hash, block_index, 4);
+    memcpy(new_in->tx_out_hash, &block_index, 4);
     ec_to_pub(receiver, pub);
     new_out = tx_out_create(COINBASE_AMOUNT, pub);
     sha256((int8_t *)new_out, sizeof(new_out->amount) + sizeof(new_out->pub, new_out->hash_buf));

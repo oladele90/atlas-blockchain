@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <sys/syscall.h>
 
+#define COINBASE_AMOUNT 50
 #define BLOCKCHAIN_DATA_MAX 1024
 
 /**
@@ -182,4 +183,5 @@ sig_t *tx_in_sign(
 	tx_in_t *in, uint8_t const tx_id[SHA256_DIGEST_LENGTH],
 	EC_KEY const *sender, llist_t *all_unspent);
 int transaction_is_valid(transaction_t const *transaction, llist_t *all_unspent);
+transaction_t *coinbase_create(EC_KEY const *receiver, uint32_t block_index);
 #endif

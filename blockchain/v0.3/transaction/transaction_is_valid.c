@@ -28,7 +28,7 @@ static int check_inputs(int tx_in_amt, int unspent_amt, transaction_t const *tra
 }
 int transaction_is_valid(transaction_t const *transaction, llist_t *all_unspent)
 {
-    int tx_in_amt, tx_out_amt, unspent_amt;
+    int tx_in_amt, tx_out_amt;
     uint8_t hash_buf[SHA256_DIGEST_LENGTH];
 
     if (memcmp(transaction_hash(transaction, hash_buf), &transaction->id, SHA256_DIGEST_LENGTH) != 0)
@@ -36,6 +36,5 @@ int transaction_is_valid(transaction_t const *transaction, llist_t *all_unspent)
 
     tx_in_amt = llist_size(transaction->inputs);
     tx_out_amt = llist_size(transaction->outputs);
-    unspent_amt = llist_size(all_unspent);
     return (check_inputs(tx_in_amt, unspent_amt, transaction, all_unspent));
 }

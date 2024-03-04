@@ -11,7 +11,7 @@ transaction_t *coinbase_create(EC_KEY const *receiver, uint32_t block_index)
     memcpy(new_in->tx_out_hash, &block_index, 4);
     ec_to_pub(receiver, pub);
     new_out = tx_out_create(COINBASE_AMOUNT, pub);
-    sha256((int8_t *)new_out, sizeof(new_out->amount) + sizeof(new_out->pub, new_out->hash));
+    sha256((int8_t *)new_out, sizeof(new_out->amount) + sizeof(new_out->pub), new_out->hash);
     transaction = calloc(sizeof(transaction_t), 1);
     transaction->outputs = llist_create(MT_SUPPORT_FALSE);
     transaction->inputs = llist_create(MT_SUPPORT_FALSE);

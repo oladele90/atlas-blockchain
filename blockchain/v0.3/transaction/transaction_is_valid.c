@@ -16,6 +16,7 @@ static int check_inputs(int tx_in_size, int unspent_size, int tx_out_size, trans
             unspent_index = llist_get_node_at(all_unspent, j);
             if (memcmp(&tx_in_index->tx_out_hash, unspent_index->out.hash, SHA256_DIGEST_LENGTH) == 0 &&
                 memcmp(&tx_in_index->tx_id, unspent_index->tx_id, SHA256_DIGEST_LENGTH) == 0 && 
+                memcmp(&tx_in_index->block_hash, unspent_index->block_hash, SHA256_DIGEST_LENGTH) == 0 &&
                 ec_verify(ec_from_pub((uint8_t const *)unspent_index->out.pub), transaction->id, SHA256_DIGEST_LENGTH, &tx_in_index->sig) == 1)
 		        {
                     in_sum += unspent_index->out.amount;

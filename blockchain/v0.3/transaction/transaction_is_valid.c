@@ -31,7 +31,7 @@ static int check_inputs(int tx_in_size, int unspent_size, int tx_out_size, trans
         tx_out_index = llist_get_node_at(transaction->outputs, i);
         out_sum += tx_out_index->amount;
     }
-    if (out_sum < in_sum)
+    if (out_sum > in_sum)
         return (0);
 
     return (1);

@@ -5,7 +5,7 @@ transaction_t *coinbase_create(EC_KEY const *receiver, uint32_t block_index)
     tx_in_t *new_in;
     tx_out_t *new_out;
     transaction_t *transaction;
-    uint8_t const pub[EC_PUB_LEN];
+    uint8_t pub[EC_PUB_LEN];
 
     new_in = calloc(sizeof(tx_in_t), 1);
     memcpy(new_in->tx_out_hash, &block_index, 4);

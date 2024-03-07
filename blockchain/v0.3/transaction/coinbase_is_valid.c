@@ -23,18 +23,18 @@ int coinbase_is_valid(transaction_t const *coinbase,
 	if (llist_size(coinbase->inputs) != 1 ||
 		llist_size(coinbase->outputs) != 1)
 		return (0);
-	
-	input = llist_get_node_at(coinbase->inputs , 0);
+
+	input = llist_get_node_at(coinbase->inputs, 0);
 	output = llist_get_node_at(coinbase->outputs, 0);
 
 	if (memcmp(input->tx_out_hash, &block_index, 4))
 		return (0);
-	
+
 	if (*input->block_hash || *input->tx_id)
 		return (0);
-	
+
 	if (output->amount != COINBASE_AMOUNT)
 		return (0);
-	
+
 	return (1);
 }

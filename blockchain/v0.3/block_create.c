@@ -7,12 +7,6 @@ block_t *block_create(block_t const *prev, int8_t const *data,
 	uint32_t d_len = data_len > BLOCKCHAIN_DATA_MAX ?
 data_len : data_len;
 
-	if (!new_block)
-	{
-		free(new_block);
-		return (NULL);
-	}
-
 	memcpy(new_block->data.buffer, data, data_len);
 	memcpy(new_block->info.prev_hash, prev->hash, SHA256_DIGEST_LENGTH);
 	new_block->data.len = d_len;

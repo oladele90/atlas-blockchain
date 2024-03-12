@@ -7,6 +7,6 @@
 
 void block_destroy(block_t *block)
 {
-	llist_destroy(block->transactions, 1, free);
+	llist_destroy(block->transactions, 1, transaction_destroy);
 	free(block);
 }

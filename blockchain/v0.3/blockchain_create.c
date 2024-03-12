@@ -1,28 +1,39 @@
 #include "blockchain.h"
 
+#define GENESIS_TIMESTAMP 1537578000
+#define GENESIS_DATA "Holberton School"
+#define GENESIS_DATA_LEN 16
+#define GENESIS_HASH "\xc5\x2c\x26\xc8\xb5\x46\x16\x39\x63\x5d\x8e\xdf\x2a\x97\xd4\x8d\x0c\x8e\x00\x09\xc8\x17\xf2\xb1\xd3\xd7\xff\x2f\x04\x51\x58\x03"
 
 /**
- * blockchain_create - initializes the genesis block of a blockchain
- * Return: pointer to the blockchain
-*/
+ * blockchain_create - creates a genesis blockchain
+ * Return: pointer to new blockchain or NULL on error
+ */
 blockchain_t *blockchain_create(void)
 {
-	blockchain_t *blockchain = calloc(1, sizeof(blockchain_t));
-	block_t *genesis_block = calloc(1, sizeof(block_t));
-	uint8_t data[] = {'H', 'o', 'l', 'b', 'e', 'r', 't', 'o', 'n', ' ',
-										 'S', 'c', 'h', 'o', 'o', 'l', '\0'};
+	blockchain_t *chain = calloc(1, sizeof(*chain));
+	block_t *block = calloc(1, sizeof(*block));
+	llist_t *list = llist_create(MT_SUPPORT_TRUE);
+	llist_t *unspent = llist_create(MT_SUPPORT_TRUE);
 
-	genesis_block->info.timestamp = 1537578000;
+	if (!chain || !block || !list || !unspent)
+	{
+		free(chain), free(block), llist_destroy(list, 1, NULL);
+		llist_destroy(unspent, 1, NULL);
+		return (NULL);
+	}
 
-	memset(genesis_block->info.prev_hash, 0, BLOCKCHAIN_DATA_MAX);
+	block->info.timestamp = GENESIS_TIMESTAMP;
+	memcpy(&(block->data.buffer), GENESIS_DATA, GENESIS_DATA_LEN);
+	block->data.len = GENESIS_DATA_LEN;
+	memcpy(&(block->hash), GENESIS_HASH, SHA256_DIGEST_LENGTH);
 
-	genesis_block->data.len = strlen((char *)(data));
-	memcpy(genesis_block->data.buffer, data, genesis_block->data.len);
-
-	memcpy(genesis_block->hash, GENESIS_BLOCK_HASH, SHA256_DIGEST_LENGTH);
-
-	blockchain->chain = llist_create(MT_SUPPORT_TRUE);
-	llist_add_node(blockchain->chain, genesis_block, ADD_NODE_FRONT);
-	blockchain->unspent = llist_create(MT_SUPPORT_FALSE);
-	return (blockchain);
+	if (llist_add_node(list, block, ADD_NODE_FRONT))
+	{
+		free(chain), free(block), llist_destroy(list, 1, NULL);
+		return (NULL);
+	}
+	chain->chain = list;
+	chain->unspent = unspent;
+	return (chain);
 }

@@ -12,7 +12,6 @@
 #include <sys/syscall.h>
 
 #define COINBASE_AMOUNT 50
-#define MIN(x, y) ((x) < (y) ? (x) : (y))
 #define BLOCKCHAIN_DATA_MAX 1024
 
 /**

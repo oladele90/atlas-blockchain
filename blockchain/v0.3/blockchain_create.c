@@ -15,7 +15,7 @@ blockchain_t *blockchain_create(void)
 		free(new_chain);
 		return (NULL);
 	}
-	new_chain->chain = llist_create(MT_SUPPORT_FALSE);
+	new_chain->chain = llist_create(MT_SUPPORT_TRUE);
 	if (!new_chain->chain)
 	{
 		free(new_block);
@@ -33,6 +33,6 @@ blockchain_t *blockchain_create(void)
 							"\x58\x03", SHA256_DIGEST_LENGTH);
 
 	llist_add_node(new_chain->chain, new_block, ADD_NODE_FRONT);
-	new_chain->unspent = llist_create(MT_SUPPORT_FALSE);
+	new_chain->unspent = llist_create(MT_SUPPORT_TRUE);
 	return (new_chain);
 }

@@ -33,5 +33,6 @@ blockchain_t *blockchain_create(void)
 							"\x58\x03", SHA256_DIGEST_LENGTH);
 
 	llist_add_node(new_chain->chain, new_block, ADD_NODE_FRONT);
+	new_chain->unspent = llist_create(MT_SUPPORT_FALSE);
 	return (new_chain);
 }

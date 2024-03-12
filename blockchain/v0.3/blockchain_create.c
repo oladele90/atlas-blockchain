@@ -1,39 +1,38 @@
 #include "blockchain.h"
 
-#define GENESIS_TIMESTAMP 1537578000
-#define GENESIS_DATA "Holberton School"
-#define GENESIS_DATA_LEN 16
-#define GENESIS_HASH "\xc5\x2c\x26\xc8\xb5\x46\x16\x39\x63\x5d\x8e\xdf\x2a\x97\xd4\x8d\x0c\x8e\x00\x09\xc8\x17\xf2\xb1\xd3\xd7\xff\x2f\x04\x51\x58\x03"
-
 /**
- * blockchain_create - creates a genesis blockchain
- * Return: pointer to new blockchain or NULL on error
+ * blockchain_create - Creates a new blockchain with a genesis block
+ *
+ * Return: A pointer to the newly created blockchain
  */
 blockchain_t *blockchain_create(void)
 {
-	blockchain_t *chain = calloc(1, sizeof(*chain));
-	block_t *block = calloc(1, sizeof(*block));
-	llist_t *list = llist_create(MT_SUPPORT_TRUE);
-	llist_t *unspent = llist_create(MT_SUPPORT_TRUE);
+	blockchain_t *new_chain = calloc(1, sizeof(blockchain_t));
+	block_t *new_block = calloc(1, sizeof(block_t));
 
-	if (!chain || !block || !list || !unspent)
+	if (!new_block || !new_chain)
 	{
-		free(chain), free(block), llist_destroy(list, 1, NULL);
-		llist_destroy(unspent, 1, NULL);
+		free(new_chain);
+		return (NULL);
+	}
+	new_chain->chain = llist_create(MT_SUPPORT_FALSE);
+	if (!new_chain->chain)
+	{
+		free(new_block);
+		free(new_chain);
 		return (NULL);
 	}
 
-	block->info.timestamp = GENESIS_TIMESTAMP;
-	memcpy(&(block->data.buffer), GENESIS_DATA, GENESIS_DATA_LEN);
-	block->data.len = GENESIS_DATA_LEN;
-	memcpy(&(block->hash), GENESIS_HASH, SHA256_DIGEST_LENGTH);
+	memcpy(new_block->data.buffer, "Holberton School",
+			strlen("Holberton School") + 1);
+	new_block->data.len = strlen((const char *)new_block->data.buffer);
+	new_block->info.timestamp = 1537578000;
+	memcpy(new_block->hash, "\xc5\x2c\x26\xc8\xb5\x46\x16\x39\x63\x5d"
+							"\x8e\xdf\x2a\x97\xd4\x8d\x0c\x8e\x00\x09"
+							"\xc8\x17\xf2\xb1\xd3\xd7\xff\x2f\x04\x51"
+							"\x58\x03", SHA256_DIGEST_LENGTH);
 
-	if (llist_add_node(list, block, ADD_NODE_FRONT))
-	{
-		free(chain), free(block), llist_destroy(list, 1, NULL);
-		return (NULL);
-	}
-	chain->chain = list;
-	chain->unspent = unspent;
-	return (chain);
+	llist_add_node(new_chain->chain, new_block, ADD_NODE_FRONT);
+	new_chain->unspent = llist_create(MT_SUPPORT_FALSE);
+	return (new_chain);
 }

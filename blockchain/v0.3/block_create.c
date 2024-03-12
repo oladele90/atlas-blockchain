@@ -18,6 +18,7 @@ data_len : data_len;
 	new_block->data.len = d_len;
 	new_block->info.timestamp = syscall(SYS_time, NULL);
 	new_block->info.index = prev->info.index + 1;
+	new_block->transactions = llist_create(MT_SUPPORT_FALSE);
 
 	return (new_block);
 }

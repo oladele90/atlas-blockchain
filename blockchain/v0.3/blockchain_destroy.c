@@ -6,8 +6,7 @@
  */
 void blockchain_destroy(blockchain_t *blockchain)
 {
-	llist_destroy(blockchain->chain, llist_size(blockchain->chain), NULL);
+	llist_destroy((llist_t *)blockchain->chain, 1, (node_dtor_t)block_destroy);
 	llist_destroy(blockchain->unspent, 1, free);
-	blockchain->chain = NULL;
 	free(blockchain);
 }
